@@ -110,13 +110,14 @@ class DRAW(Recurrent):
 
     def _get_attention.trainable_weights(self, h, L, b, N):
         p = T.dot(h, L) + b
-        gx = self.width * (p[:, 0]+1) / 2.
-        gy = self.height * (p[:, 1]+1) / 2.
+        gx = self.width * (p[:, 0]+1) / 2.0
+        gy = self.height * (p[:, 1]+1) / 2.0
         sigma2 = T.exp(p[:, 2])
-        delta = T.exp(p[:, 3]) * (max(self.width, self.height) - 1) / (N - 1.)
+        delta = T.exp(p[:, 3]) * (max(self.width, self.height) - 1) / (N - 1.0)
         gamma = T.exp(p[:, 4])
         return gx, gy, sigma2, delta, gamma
 
+    
     def _get_filterbank(self, gx, gy, sigma2, delta, N):
         small = 1e-4
         i = T.arange(N)
